@@ -90,7 +90,7 @@ export default function App() {
         }
 
         .upload-section:hover {
-          background-color: #861F41; 
+          background-color: #e8dce1ff; 
         }
 
         .upload-section button {
@@ -121,11 +121,12 @@ export default function App() {
 
         .note-card h3 {
           font-weight: 600;
+          color: #fcfcfcff;
           margin-bottom: 0.25rem;
         }
 
         .note-card p {
-          color: #000;
+          color: #d7c9c9ff;
           font-size: 0.875rem;
         }
       `}</style>
