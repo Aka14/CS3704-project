@@ -1,6 +1,19 @@
 import "./App.css";
+import { useRef, useState } from "react";
 
 export default function App() {
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  function triggerFileSelect() {
+    fileInputRef.current!.click();
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const selectedFile = e.target.files?.[0] ?? null;
+    setFile(selectedFile);
+  }
+  
   return (
     <div className="app-container">
       <div className="notes-dashboard">
@@ -8,7 +21,19 @@ export default function App() {
 
         <div className="upload-section">
           <p>Upload Note Skeleton</p>
-          <button>Choose File</button>
+          <button onClick={triggerFileSelect}>Choose File</button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden-input"
+          />
+
+          {file && (
+            <p style={{ marginTop: "1rem", fontSize: "0.9rem" }}>
+              Selected file: <strong>{file.name}</strong>
+            </p>
+          )}
         </div>
         <div className="notes-section">
           <h2>Your Notes</h2>
@@ -30,6 +55,9 @@ export default function App() {
       </div>
 
       <style>{`
+        .hidden-input {
+          display: none;
+        }
         .app-container {
           display: flex;
           justify-content: center;
@@ -39,7 +67,6 @@ export default function App() {
         }
 
         .notes-dashboard {
-          max-width: 600px;
           width: 100%;
           border-radius: 1rem;
           box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
