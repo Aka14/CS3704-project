@@ -6,27 +6,64 @@ export default function App() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   function triggerFileSelect() {
-    fileInputRef.current!.click();
+    fileInputRef.current?.click(); // safer than non-null assertion
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = e.target.files?.[0] ?? null;
     setFile(selectedFile);
   }
+
+  async function callGemini(prompt: string) {
+    try {
+      const res = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || `HTTP ${res.status}`);
+      }
+      return await res.json();
+    } catch (err) {
+      console.error("Gemini API error:", err);
+      return { error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+
+  ;(window as any).callGemini = callGemini;
   
   return (
     <div className="app-container">
       <div className="notes-dashboard">
         <h1>Notes Dashboard</h1>
 
-        <div className="upload-section">
+        <div
+          className="upload-section"
+          onClick={triggerFileSelect}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") triggerFileSelect();
+          }}
+        >
           <p>Upload Note Skeleton</p>
-          <button onClick={triggerFileSelect}>Choose File</button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); // prevent double handling if desired
+              triggerFileSelect();
+            }}
+          >
+            Choose File
+          </button>
           <input
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
             className="hidden-input"
+            aria-hidden="true"
+            // accept=".md,.txt,.pdf" // uncomment/adjust if you want to restrict file types
           />
 
           {file && (

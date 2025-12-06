@@ -1,0 +1,13 @@
+{
+  "name": "cs3074-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.0.0"
+  }
+}
