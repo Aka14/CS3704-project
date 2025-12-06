@@ -1,43 +1,99 @@
-#root {
-  /* max-width: 1280px; */
-  width: 50%;
-  margin: 0 auto;
+.hidden-input {
+  display: none;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.notes-dashboard {
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.upload-section {
+  border: 2px dashed #9ca3af;
+  border-radius: 1rem;
   padding: 2rem;
   text-align: center;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.upload-section:hover {
+  background-color: #e8dce1ff;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.upload-section button {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.75rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.upload-section button:hover {
+  background-color: #2563eb;
 }
 
-.card {
-  padding: 2em;
+.selected-file {
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
-.read-the-docs {
-  color: #888;
+.ai-summary-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: #861f41;
+  color: white;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.ai-summary-btn:hover {
+  background-color: #6d1834;
+}
+
+.notes-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.note-card {
+  background-color: #861f41;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.note-card h3 {
+  font-weight: 600;
+  color: #fcfcfcff;
+  margin-bottom: 0.25rem;
+}
+
+.note-card p {
+  color: #d7c9c9ff;
+  font-size: 0.875rem;
 }

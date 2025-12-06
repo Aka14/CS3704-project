@@ -34,6 +34,15 @@ export default function App() {
 
   ;(window as any).callGemini = callGemini;
   
+  function generateAiSummary() {
+	if (!file) {
+		alert("Please upload a note skeleton first.");
+	    	return;
+		}
+	alert(`AI Summary would be generated for: ${file.name}`);
+  }
+  
+  
   return (
     <div className="app-container">
       <div className="notes-dashboard">
@@ -71,6 +80,11 @@ export default function App() {
               Selected file: <strong>{file.name}</strong>
             </p>
           )}
+		  
+		<button className="ai-summary-btn" onClick={generateAISummary}>
+			Generate AI Summary
+		</button>
+		
         </div>
         <div className="notes-section">
           <h2>Your Notes</h2>
