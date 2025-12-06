@@ -1,3 +1,7 @@
+/**
+ * This file has code that was generated using Cursor AI to create a server for the frontend.
+ */
+
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
