@@ -1,12 +1,15 @@
 import "./App.css";
 import { useRef, useState } from "react";
+import Login from "./Login";
 
 export default function App() {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [user, setUser] = useState<string | null>(null);
+  const [showLogin, setShowLogin] = useState(false);
 
   function triggerFileSelect() {
-    fileInputRef.current?.click(); // safer than non-null assertion
+    fileInputRef.current?.click();
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -32,10 +35,34 @@ export default function App() {
     }
   }
 
-  ;(window as any).callGemini = callGemini;
-  
+  (window as any).callGemini = callGemini;
+
   return (
-    <div className="app-container">
+    <div className="app-container relative min-h-screen">
+      {/* LOGIN BUTTON (top-right) */}
+      {!user && (
+        <button
+          onClick={() => setShowLogin(true)}
+          className="position: abosolute top:1rem right:1rem bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 shadow-lg"
+        >
+          Login
+        </button>
+      )}
+
+      {/* LOGIN MODAL */}
+      {showLogin && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black/30">
+          <div className="bg-white p-6 rounded-2xl shadow-xl">
+            <Login
+              onLogin={(email) => {
+                setUser(email);
+                setShowLogin(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="notes-dashboard">
         <h1>Notes Dashboard</h1>
 
@@ -51,19 +78,18 @@ export default function App() {
           <p>Upload Note Skeleton</p>
           <button
             onClick={(e) => {
-              e.stopPropagation(); // prevent double handling if desired
+              e.stopPropagation();
               triggerFileSelect();
             }}
           >
             Choose File
           </button>
+
           <input
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
             className="hidden-input"
-            aria-hidden="true"
-            // accept=".md,.txt,.pdf" // uncomment/adjust if you want to restrict file types
           />
 
           {file && (
@@ -72,25 +98,38 @@ export default function App() {
             </p>
           )}
         </div>
-        <div className="notes-section">
-          <h2>Your Notes</h2>
 
-          <div className="note-card">
-            <h3>Note 1</h3>
-            <p>
-              Note 1 summary
-            </p>
-          </div>
+        {/* NOTES ONLY IF LOGGED IN */}
+        {user && (
+          <div className="notes-section">
+            <h2>Your Notes</h2>
 
-          <div className="note-card">
-            <h3>Note 2</h3>
-            <p>
-              Note 2 summary
-            </p>
+            <div className="note-card">
+              <h3>Note 1</h3>
+              <p>Note 1 summary</p>
+              <button
+                className="mt-2 bg-green-600 text-white p-2 rounded-xl hover:bg-green-700"
+                onClick={() => alert("Share link generated!")}
+              >
+                Share Note
+              </button>
+            </div>
+
+            <div className="note-card">
+              <h3>Note 2</h3>
+              <p>Note 2 summary</p>
+              <button
+                className="mt-2 bg-green-600 text-white p-2 rounded-xl hover:bg-green-700"
+                onClick={() => alert("Share link generated!")}
+              >
+                Share Note
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
+      {/* INLINE STYLES */}
       <style>{`
         .hidden-input {
           display: none;
@@ -99,69 +138,52 @@ export default function App() {
           display: flex;
           justify-content: center;
           align-items: center;
-          min-height: 100vh; /* full viewport height */
-          padding: 1.5rem; /* optional padding */
+          min-height: 100vh;
+          padding: 1.5rem;
         }
-
         .notes-dashboard {
           width: 100%;
           border-radius: 1rem;
           box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
           padding: 1.5rem;
         }
-
-        h1 {
-          text-align: center;
-          font-size: 2rem;
-          font-weight: bold;
-          margin-bottom: 1.5rem;
-        }
-
         .upload-section {
-          border: 2px dashed #9ca3af; /* gray-400 */
+          border: 2px dashed #9ca3af;
           border-radius: 1rem;
           padding: 2rem;
           text-align: center;
           cursor: pointer;
           margin-bottom: 1.5rem;
         }
-
         .upload-section:hover {
-          background-color: #e8dce1ff; 
+          background-color: #e8dce1ff;
         }
-
         .upload-section button {
           padding: 0.5rem 1rem;
-          background-color: #3b82f6; 
+          background-color: #3b82f6;
           color: white;
           border-radius: 0.75rem;
           border: none;
           cursor: pointer;
         }
-
         .upload-section button:hover {
-          background-color: #2563eb; 
+          background-color: #2563eb;
         }
-
         .notes-section h2 {
           font-size: 1.25rem;
           font-weight: 600;
           margin-bottom: 1rem;
         }
-
         .note-card {
           background-color: #861F41;
           padding: 1rem;
           border-radius: 0.75rem;
           margin-bottom: 1rem;
         }
-
         .note-card h3 {
-          font-weight: 600;
-          color: #fcfcfcff;
+          color: white;
           margin-bottom: 0.25rem;
         }
-
         .note-card p {
           color: #d7c9c9ff;
           font-size: 0.875rem;
