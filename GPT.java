@@ -5,6 +5,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+//No AI was used for adding this Class
+
 public class GPT {
     
     private String GPTurl;
@@ -27,7 +29,7 @@ public class GPT {
      */
     public String generateFlashCards(String userNotes, int numCards)
     {
-        String GPTrequest = "Generate " + String.valueOf(numCards) + " flash cards of the most important topics from these notes: " + userNotes;
+        String GPTrequest = "Generate " + String.valueOf(numCards) + " flash cards of the most important topics from these notes: " + userNotes + ". return in the format: concept, definition";
         return chatGPT(GPTrequest);
     }
 
